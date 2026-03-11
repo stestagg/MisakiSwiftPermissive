@@ -2,7 +2,7 @@ import Foundation
 import MLX
 import MLXUtilsLibrary
 
-final class EnglishFallbackNetwork {
+public final class EnglishFallbackNetwork {
   static let unknownTokenId = 3
   
   private let configuration: BARTConfig
