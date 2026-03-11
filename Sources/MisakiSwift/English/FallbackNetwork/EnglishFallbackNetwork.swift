@@ -13,7 +13,7 @@ public final class EnglishFallbackNetwork {
 
   private let british: Bool
     
-  init(british: Bool) {    
+  public init(british: Bool) {    
     configuration = EnglishFallbackNetwork.loadConfig(british: british)!
     modelWeights = EnglishFallbackNetwork.loadWeights(british: british)!
     
