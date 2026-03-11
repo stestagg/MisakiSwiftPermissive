@@ -2,7 +2,7 @@ import Foundation
 import MLX
 import MLXNN
 
-nonisolated final class BARTModel: Module {
+nonisolated public final class BARTModel: Module {
   let config: BARTConfig
   let sharedEmbedding: Embedding
   let encoderPositionalEmbedding: Embedding
