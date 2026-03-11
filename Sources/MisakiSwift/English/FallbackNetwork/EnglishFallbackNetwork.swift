@@ -7,11 +7,11 @@ public final class EnglishFallbackNetwork {
   
   private let configuration: BARTConfig
   private let modelWeights: [String: MLXArray]
-  private let model: BARTModel
-  private let graphemeToToken: [Character: Int]
-  private let tokenToPhoneme: [Int: Character]
+  public let model: BARTModel
+  public let graphemeToToken: [Character: Int]
+  public let tokenToPhoneme: [Int: Character]
 
-  private let british: Bool
+  public let british: Bool
     
   public init(british: Bool) {    
     configuration = EnglishFallbackNetwork.loadConfig(british: british)!
