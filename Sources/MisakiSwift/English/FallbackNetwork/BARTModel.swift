@@ -65,7 +65,7 @@ nonisolated final class BARTModel: Module {
     super.init()
   }
     
-  func encode(_ inputIds: MLXArray, mask: MLXArray? = nil) -> MLXArray {
+  public func encode(_ inputIds: MLXArray, mask: MLXArray? = nil) -> MLXArray {
     let seqLen = inputIds.shape[1]
     let positions = MLXArray(0..<seqLen).reshaped([1, seqLen]) + 2
         
@@ -84,7 +84,7 @@ nonisolated final class BARTModel: Module {
     return hidden
   }
     
-  func decode(
+  public func decode(
     _ inputIds: MLXArray,
     encoderOutput: MLXArray,
     selfMask: MLXArray? = nil,
@@ -108,7 +108,7 @@ nonisolated final class BARTModel: Module {
     return lmHead(hidden) + logitBias
   }
     
-  func generate(inputIds: MLXArray, maxLength: Int = 50, temperature: Float = 1.0) -> MLXArray {
+  public func generate(inputIds: MLXArray, maxLength: Int = 50, temperature: Float = 1.0) -> MLXArray {
     // Encode input
     let encoderOutput = encode(inputIds)
     
