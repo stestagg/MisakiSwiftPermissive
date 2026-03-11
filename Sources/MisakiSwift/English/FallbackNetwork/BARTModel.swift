@@ -146,4 +146,48 @@ nonisolated public final class BARTModel: Module {
         
     return MLXArray(generatedTokens)
   }
+
+  public func generateLogits(inputIds: MLXArray, maxLength: Int = 50, temperature: Float = 1.0) -> MLXArray {
+    // Encode input
+    let encoderOutput = encode(inputIds)
+
+    // Start with BOS token
+    var decoderInput = MLXArray([config.bosTokenId]).reshaped([1, 1])
+    var logitsHistory: MLXArray?
+
+    for i in 0..<maxLength {
+      if i == maxLength - 1 {
+        break
+      }
+
+      // Decode next token
+      let logits = decode(decoderInput, encoderOutput: encoderOutput)
+      let nextTokenLogits = logits[0, logits.shape[1] - 1]
+
+      // Store logits for this generation step
+      let stepLogits = nextTokenLogits.reshaped([1, nextTokenLogits.shape[0]])
+      if let existingLogitsHistory = logitsHistory {
+        logitsHistory = concatenated([existingLogitsHistory, stepLogits], axis: 0)
+      } else {
+        logitsHistory = stepLogits
+      }
+
+      // Apply temperature
+      let scaledLogits = nextTokenLogits / temperature
+
+      // Sample next token, take the max probability value
+      let nextToken = scaledLogits.argMax().item(Int32.self)
+
+      // Stop if EOS token
+      if nextToken == config.eosTokenId {
+        break
+      }
+
+      // Append to decoder input
+      let newToken = MLXArray([nextToken]).reshaped([1, 1])
+      decoderInput = concatenated([decoderInput, newToken], axis: 1)
+    }
+
+    return logitsHistory ?? MLXArray([])
+  }
 }
