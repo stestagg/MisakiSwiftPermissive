@@ -166,8 +166,8 @@ nonisolated public final class BARTModel: Module {
 
       // Store logits for this generation step
       let stepLogits = nextTokenLogits.reshaped([1, nextTokenLogits.shape[0]])
-      if let logitsHistory {
-        logitsHistory = concatenated([logitsHistory, stepLogits], axis: 0)
+      if let existingLogitsHistory = logitsHistory {
+        logitsHistory = concatenated([existingLogitsHistory, stepLogits], axis: 0)
       } else {
         logitsHistory = stepLogits
       }
