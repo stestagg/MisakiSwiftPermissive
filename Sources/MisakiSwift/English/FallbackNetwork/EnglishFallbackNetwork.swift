@@ -34,7 +34,7 @@ public final class EnglishFallbackNetwork {
     self.tokenToPhoneme = phonemeDict    
   }
   
-  private func graphemesToTokens(_ graphemes: String) -> [Int] {
+  public func graphemesToTokens(_ graphemes: String) -> [Int] {
     var tokens: [Int] = [configuration.bosTokenId]
     
     for char in graphemes {
@@ -49,7 +49,7 @@ public final class EnglishFallbackNetwork {
     return tokens
   }
       
-  private func tokensToPhonemes(_ tokens: [Int]) -> String {
+  public func tokensToPhonemes(_ tokens: [Int]) -> String {
     var phonemes = ""
     
     for token in tokens {
